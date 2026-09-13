@@ -1,0 +1,22 @@
+Retrieval-Augmented Generation (RAG) is a technique that enhances Large Language Models (LLMs) by providing them with relevant external information retrieved from a knowledge base before generating a response. Instead of relying solely on the knowledge stored in the model's parameters during training, RAG retrieves up-to-date, domain-specific information and includes it in the prompt.
+
+Why RAG Exists:
+LLMs like GPT-4 have a knowledge cutoff — they only know what was in their training data up to a certain date. They can also hallucinate, generating confident-sounding but factually incorrect information. RAG addresses both problems by grounding the model's responses in retrieved evidence from a controlled, updatable knowledge base.
+
+How RAG Works:
+The RAG pipeline has three main stages:
+
+1. Retrieval: When a user asks a question, the system converts the query into a vector embedding and searches a vector database for the most semantically similar document chunks. This finds relevant information even when the exact words differ between the query and the documents.
+
+2. Augmentation: The retrieved document chunks are inserted into the LLM's prompt as context. The prompt typically instructs the model to answer based on the provided context and to acknowledge when information is insufficient.
+
+3. Generation: The LLM generates a response grounded in the retrieved context. Because the model has access to relevant, specific information, the response is more likely to be accurate and less likely to hallucinate.
+
+RAG vs Fine-Tuning:
+Fine-tuning modifies the model's weights by training it on domain-specific data. This is expensive, requires technical expertise, and the model must be retrained whenever the knowledge changes. RAG keeps the model unchanged and simply provides different context at query time. This makes RAG cheaper, easier to update, and more flexible. RAG is preferred when the knowledge base changes frequently or when you need to cite specific sources.
+
+Key Components:
+Document Loader: Reads raw documents from files, databases, or APIs. Chunking Strategy: Splits large documents into smaller chunks (typically 200-1000 characters) that fit in the LLM's context window and provide focused information. Embedding Model: Converts text chunks and queries into dense vector representations. Vector Database: Stores embeddings and enables fast similarity search. Examples include ChromaDB, Pinecone, Weaviate, and Qdrant.
+
+Limitations:
+RAG quality depends heavily on the quality of document chunking, the embedding model's ability to capture semantic meaning, and the relevance of the retrieved documents. Poor chunking can split important information across multiple chunks. The LLM may still hallucinate if the prompt instructions are not clear enough. Retrieval may miss relevant documents if the query is ambiguous or if the embedding model does not capture the semantic relationship between the query and the documents.

@@ -1,0 +1,31 @@
+LangGraph is a framework for building stateful, multi-step AI workflows as directed graphs. Built by the LangChain team, it extends LangChain's capabilities by providing explicit control over the flow of data through a series of processing steps (nodes), with the ability to define conditional routing and maintain state across the entire execution.
+
+Why LangGraph:
+Simple LLM applications can use a linear chain of operations: receive input, call LLM, return output. But real-world AI applications often need more complex logic — conditional branching (take different paths based on intermediate results), retry mechanisms (if a response fails validation, try again), and shared state (information detected early in the pipeline must be available to later steps). LangGraph makes this logic explicit and manageable rather than hidden in nested if-else blocks.
+
+Core Concepts:
+
+Nodes: Each node is a function that performs one specific task — language detection, document retrieval, response generation, etc. Nodes receive the current state, perform their work, and return updates to the state. Keeping nodes focused on a single responsibility makes the workflow testable and understandable.
+
+Edges: Edges define the flow between nodes. Simple edges connect one node to the next unconditionally. Conditional edges evaluate the current state and route to different nodes based on the result — for example, routing to a retry node if validation fails, or routing to END if validation succeeds.
+
+State: The state is a typed dictionary (TypedDict) that flows through the entire graph. Each node can read from and write to the state. This shared state eliminates the need to pass data explicitly between steps and provides a clear picture of all information available at each point in the pipeline.
+
+Building a Graph:
+You create a StateGraph, add nodes and edges, then compile it into an executable workflow. The compiled graph can be invoked with an initial state, and it processes the input through all nodes following the defined edges until it reaches the END node.
+
+Practical Example — RAG Pipeline:
+A RAG chatbot can be modeled as a LangGraph workflow:
+1. detect_language: Identify whether the user's query is in English, Hindi, or Hinglish
+2. rewrite_query: Use conversation context to make the query standalone
+3. retrieve_documents: Search the vector database for relevant information
+4. generate_response: Use the LLM to generate a grounded answer
+5. validate_response: Check that the response meets quality criteria
+
+The graph can include a conditional edge after validation: if the response is valid, end; if invalid and retry count is low, loop back to generation.
+
+LangGraph vs Agent Frameworks:
+LangGraph is not an autonomous agent framework. It does not give the LLM free rein to decide what tools to use or what steps to take. Instead, the developer defines the exact workflow structure, and the LLM is used within specific nodes for specific tasks. This makes LangGraph more predictable and debuggable than fully autonomous agent systems, while still providing the flexibility of conditional routing and stateful execution.
+
+When to Use LangGraph:
+LangGraph is appropriate when your AI application has multiple processing steps that need to be orchestrated with clear control flow, when you need conditional logic between steps, when you want shared state across the pipeline, or when you need retry mechanisms. For simple single-call LLM applications, LangGraph adds unnecessary complexity.

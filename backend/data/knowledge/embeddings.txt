@@ -1,0 +1,22 @@
+Embeddings are dense vector representations of data (typically text) in a continuous vector space. Unlike sparse representations like one-hot encoding or bag-of-words, embeddings capture semantic meaning — words or sentences with similar meanings are mapped to nearby points in the vector space.
+
+What Are Embeddings:
+An embedding converts a piece of text into a fixed-size array of numbers (a vector). For example, the word "king" might be represented as a vector of 384 dimensions. The key property is that semantically similar texts produce vectors that are close together. "Dog" and "puppy" would have nearby embeddings, while "dog" and "algorithm" would be far apart.
+
+How Embeddings Work:
+Embedding models are neural networks trained on large amounts of text. During training, the model learns to position related concepts near each other in vector space. Word2Vec (2013) was one of the first popular word embedding models, demonstrating that vector arithmetic could capture relationships: vector("king") - vector("man") + vector("woman") ≈ vector("queen"). GloVe is another word embedding approach based on co-occurrence statistics.
+
+Sentence and Document Embeddings:
+Modern embedding models go beyond individual words to encode entire sentences or paragraphs into single vectors. Models like Sentence-BERT and the sentence-transformers library produce sentence embeddings that capture the overall meaning of a text passage. These are essential for tasks like semantic search, where you want to find documents related to a query based on meaning rather than keyword matching.
+
+Similarity Measurement:
+The similarity between two embeddings is typically measured using cosine similarity, which computes the cosine of the angle between two vectors. A cosine similarity of 1 means the vectors point in exactly the same direction (very similar), while 0 means they are orthogonal (unrelated). Euclidean distance and dot product are alternative similarity measures.
+
+Multilingual Embeddings:
+Multilingual embedding models are trained on text from many languages simultaneously. They map semantically equivalent content from different languages to nearby points in the same vector space. For example, "What is machine learning?" in English and "मशीन लर्निंग क्या है?" in Hindi would produce similar embeddings. This enables cross-lingual semantic search without requiring translation. The model paraphrase-multilingual-MiniLM-L12-v2 supports over 50 languages and produces 384-dimensional embeddings.
+
+Embeddings in RAG:
+In a Retrieval-Augmented Generation pipeline, embeddings are used at two points: first, all knowledge base documents are converted into embeddings and stored in a vector database during ingestion; second, each user query is embedded at query time and compared against stored document embeddings to find the most relevant chunks. The quality of the embedding model directly affects retrieval quality, which in turn affects the quality of the generated response.
+
+Embedding Dimensions:
+The dimensionality of an embedding vector affects both storage requirements and the richness of information captured. Common dimensions are 384, 768, and 1536. Higher dimensions can capture more nuance but require more storage and computation. The choice depends on the application's trade-off between accuracy and efficiency.

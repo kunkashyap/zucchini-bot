@@ -1,0 +1,16 @@
+Python is a high-level, interpreted, general-purpose programming language created by Guido van Rossum and first released in 1991. It emphasizes code readability and simplicity, using significant whitespace (indentation) to define code blocks rather than curly braces.
+
+Key Features of Python:
+Python is dynamically typed, meaning variable types are determined at runtime rather than at compile time. It supports multiple programming paradigms including procedural, object-oriented, and functional programming. Python has an extensive standard library often described as "batteries included" because it provides modules for file handling, web protocols, data manipulation, and much more without requiring external packages.
+
+Python in AI and Machine Learning:
+Python has become the dominant language in artificial intelligence and machine learning. Libraries like NumPy and Pandas provide efficient data manipulation. Scikit-learn offers traditional machine learning algorithms. PyTorch and TensorFlow are the two major deep learning frameworks, both with first-class Python support. The simplicity of Python syntax allows researchers to prototype ideas quickly.
+
+Web Development with Python:
+Python has several web frameworks. Django is a full-featured framework following the "batteries included" philosophy. Flask is a lightweight micro-framework that gives developers more control. FastAPI is a modern, high-performance framework designed for building APIs, with automatic documentation and support for asynchronous programming.
+
+Package Management:
+Python uses pip as its package manager, installing packages from the Python Package Index (PyPI). Virtual environments (venv or conda) allow isolated package installations per project, preventing dependency conflicts between different projects.
+
+Python 3 vs Python 2:
+Python 2 reached end-of-life in January 2020. All new Python development uses Python 3, which introduced improvements like better Unicode handling, print as a function, integer division behavior changes, and type hints for optional static type checking.

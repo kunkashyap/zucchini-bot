@@ -1,0 +1,22 @@
+Deep Learning is a subset of machine learning that uses artificial neural networks with multiple layers (hence "deep") to learn complex patterns from large amounts of data. While traditional machine learning requires manual feature engineering, deep learning automatically discovers the representations needed for a task directly from raw data.
+
+Neural Network Fundamentals:
+A neural network consists of layers of interconnected nodes (neurons). Each connection has a weight that is adjusted during training. An input layer receives data, one or more hidden layers process it, and an output layer produces predictions. Activation functions (ReLU, sigmoid, softmax) introduce non-linearity, allowing networks to learn complex patterns. Without activation functions, a deep network would behave like a single linear transformation regardless of depth.
+
+Training Neural Networks:
+Training uses backpropagation and gradient descent. The network makes a prediction, a loss function measures the error, and gradients are computed to show how each weight should change to reduce the error. The optimizer (SGD, Adam) updates the weights iteratively. This process repeats over many epochs (passes through the training data). Batch size determines how many examples are processed before each weight update.
+
+Convolutional Neural Networks (CNNs):
+CNNs are specialized for image and spatial data. Convolutional layers apply learnable filters that detect features like edges, textures, and shapes. Pooling layers reduce spatial dimensions. CNNs excel at image classification, object detection, and image segmentation. Architectures like ResNet, VGG, and EfficientNet have achieved human-level performance on image recognition tasks.
+
+Recurrent Neural Networks (RNNs) and LSTMs:
+RNNs process sequential data by maintaining a hidden state that captures information from previous time steps. However, basic RNNs suffer from the vanishing gradient problem — they struggle to learn long-range dependencies. Long Short-Term Memory (LSTM) networks solve this with gating mechanisms that control what information to keep or discard.
+
+Transformers and Attention:
+The Transformer architecture, introduced in the 2017 paper "Attention Is All You Need," revolutionized NLP and beyond. Self-attention allows each element in a sequence to attend to every other element, capturing long-range dependencies efficiently. Transformers process entire sequences in parallel, unlike the sequential processing of RNNs. GPT (Generative Pre-trained Transformer) and BERT are landmark transformer models.
+
+Transfer Learning:
+Transfer learning uses a model pre-trained on a large dataset and fine-tunes it for a specific task with less data. This is extremely effective because early layers learn general features (edges, basic patterns) that transfer well across tasks. Pre-trained models from ImageNet (vision) and large text corpora (NLP) are commonly used as starting points.
+
+Frameworks:
+PyTorch (by Meta) and TensorFlow (by Google) are the two dominant deep learning frameworks. PyTorch is favored in research for its dynamic computation graph and Pythonic feel. TensorFlow is widely used in production. Both support GPU acceleration for faster training.

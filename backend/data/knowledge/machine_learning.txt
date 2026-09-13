@@ -1,0 +1,21 @@
+Machine Learning (ML) is a subset of artificial intelligence where systems learn patterns from data to make predictions or decisions without being explicitly programmed for each specific task. Instead of writing rules by hand, you provide data and the algorithm discovers the underlying patterns.
+
+Types of Machine Learning:
+
+Supervised Learning trains models on labeled data — each input has a corresponding correct output. The model learns to map inputs to outputs. Common algorithms include linear regression (predicting continuous values), logistic regression (binary classification), decision trees, random forests, and support vector machines (SVM). Supervised learning is used in spam detection, image classification, and price prediction.
+
+Unsupervised Learning works with unlabeled data, finding hidden patterns or groupings. K-means clustering groups similar data points together. Principal Component Analysis (PCA) reduces data dimensions while preserving important information. Unsupervised learning is used in customer segmentation, anomaly detection, and recommendation systems.
+
+Reinforcement Learning trains an agent to make sequential decisions by rewarding desired behaviors and penalizing undesired ones. The agent learns a policy that maximizes cumulative reward. Applications include game playing (AlphaGo), robotics, and autonomous navigation.
+
+Key Concepts:
+
+Training and Testing: Data is split into training sets (for learning) and testing sets (for evaluation). A common split is 80% training and 20% testing. Cross-validation provides more robust evaluation by rotating which portion is used for testing.
+
+Overfitting occurs when a model memorizes training data but fails on new data. It performs well on training data but poorly on test data. Regularization techniques (L1, L2) and simpler models help prevent overfitting. Underfitting is the opposite — the model is too simple to capture underlying patterns.
+
+Feature Engineering is the process of selecting, transforming, and creating input variables that help the model learn better. Good features can dramatically improve model performance.
+
+Evaluation Metrics: Accuracy measures the percentage of correct predictions. Precision measures how many positive predictions were actually correct. Recall measures how many actual positives were correctly identified. F1 Score is the harmonic mean of precision and recall, useful for imbalanced datasets.
+
+Scikit-learn is the most widely used Python library for traditional machine learning, providing implementations of most common algorithms along with tools for preprocessing, model selection, and evaluation.
