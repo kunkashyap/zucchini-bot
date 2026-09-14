@@ -12,6 +12,9 @@ from pydantic import BaseModel, Field
 
 from app.graph.workflow import run_workflow
 
+from app.services.llm import check_ollama_health
+from app.config import LLM_PROVIDER
+
 logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/api")
 
@@ -48,8 +51,13 @@ class ChatResponse(BaseModel):
 
 @router.get("/health")
 async def health_check():
-    """Simple health check endpoint."""
-    return {"status": "ok"}
+    """Health check endpoint including local Ollama status."""
+    ollama_ok = check_ollama_health() if LLM_PROVIDER.lower() == "ollama" else True
+    return {
+        "status": "ok" if ollama_ok else "degraded",
+        "provider": LLM_PROVIDER,
+        "ollama_connected": ollama_ok,
+    }
 
 
 @router.post("/chat", response_model=ChatResponse)
@@ -91,6 +99,12 @@ async def chat(request: ChatRequest):
             metadata={"retrieval_count": retrieved_count},
         )
 
+    except ConnectionError as ce:
+        logger.error("Connection error in chat handler: %s", str(ce))
+        raise HTTPException(
+            status_code=503,
+            detail="Local AI model is unavailable. Please make sure Ollama is running.",
+        )
     except HTTPException:
         raise  # Re-raise HTTP exceptions as-is
     except Exception as e:

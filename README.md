@@ -36,13 +36,17 @@ graph TD
     G --> H[("ChromaDB")]
     H --> G
     G --> I["generate_response"]
-    I --> J["OpenAI LLM"]
+    I --> J["ChatOllama"]
+    J --> K["Ollama Server (localhost:11434)"]
+    K --> L["LFM2 1.2B Model"]
+    L --> K
+    K --> J
     J --> I
-    I --> K["validate_response"]
-    K -->|"valid"| L["Return Response"]
-    K -->|"invalid (retry ≤ 2)"| I
+    I --> M["validate_response"]
+    M -->|"valid"| N["Return Response"]
+    M -->|"invalid (retry ≤ 2)"| I
     
-    L --> C
+    N --> C
     C --> B
     B --> A
 ```
@@ -170,9 +174,66 @@ zucchini/
 ### Prerequisites
 - Python 3.10+
 - Node.js 18+
-- An OpenAI API key
+- [Ollama](https://ollama.com) (for local model inference) OR an OpenAI API Key
 
-### Backend Setup
+---
+
+## Running Zucchini with Local Ollama (LFM2 1.2B)
+
+Zucchini can run 100% locally with zero cloud dependencies or API keys using Ollama and the **LFM2 1.2B** model.
+
+### 1. Install & Start Ollama
+Download and install Ollama from [ollama.com](https://ollama.com). Ensure the Ollama background service is running at `http://localhost:11434`.
+
+### 2. Verify Available Local Model
+List your locally installed models in Ollama:
+```bash
+ollama list
+```
+Verify that `lfm2-local:latest` (or your imported LFM2 model name) appears in the output:
+```text
+NAME                 ID              SIZE      MODIFIED
+lfm2-local:latest    e10cbc0d8917    1.2 GB    ...
+```
+
+### 3. Test Model directly in Ollama
+Ensure your local model responds correctly:
+```bash
+ollama run lfm2-local:latest "Explain LangGraph in one paragraph."
+```
+
+### 4. Install Backend Dependencies
+```bash
+cd backend
+pip install -r requirements.txt
+```
+
+### 5. Configure `.env` for Local Ollama
+Set `LLM_PROVIDER=ollama` in `backend/.env`:
+```env
+LLM_PROVIDER=ollama
+OLLAMA_BASE_URL=http://localhost:11434
+OLLAMA_MODEL=lfm2-local:latest
+```
+*(No OpenAI API key is required when `LLM_PROVIDER=ollama`!)*
+
+### 6. Start FastAPI Backend
+```bash
+cd backend
+python -m uvicorn app.main:app --reload --port 8000
+```
+On startup, FastAPI will automatically connect to Ollama and ingest the local knowledge base.
+
+### 7. Start React Frontend
+```bash
+cd frontend
+npm run dev
+```
+Open [http://localhost:5173](http://localhost:5173) to interact with Zucchini powered by your local LFM2 1.2B model!
+
+---
+
+### Backend Setup (Cloud OpenAI Fallback)
 
 ```bash
 cd backend

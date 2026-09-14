@@ -86,13 +86,13 @@ def get_workflow():
     return _compiled_graph
 
 
-def run_workflow(query: str, conversation_history: list[dict]) -> dict:
+def run_workflow(query: str, conversation_history: list[dict] | None = None) -> dict:
     """
     Execute the full workflow for a user message.
 
     Args:
         query: The user's input message.
-        conversation_history: List of prior messages [{role, content}, ...].
+        conversation_history: Optional list of prior messages [{role, content}, ...].
 
     Returns:
         The final graph state dict containing 'response', 'language', etc.
@@ -100,6 +100,8 @@ def run_workflow(query: str, conversation_history: list[dict]) -> dict:
     Raises:
         Exception: If the workflow fails catastrophically.
     """
+    if conversation_history is None:
+        conversation_history = []
     workflow = get_workflow()
 
     # Initialize the state

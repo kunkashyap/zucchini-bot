@@ -6,14 +6,14 @@ and runs knowledge base ingestion on startup.
 """
 
 import logging
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.chat import router as chat_router
 from app.rag.ingest import ingest_documents
-from app.config import OPENAI_API_KEY
-
-from contextlib import asynccontextmanager
+from app.services.llm import check_ollama_health
+from app.config import LLM_PROVIDER, OLLAMA_BASE_URL, OLLAMA_MODEL, OPENAI_API_KEY
 
 # Configure logging
 logging.basicConfig(
@@ -34,14 +34,20 @@ async def lifespan(app: FastAPI):
     logger.info("Zucchini backend starting...")
     logger.info("=" * 50)
 
-    # Check for API key
-    if not OPENAI_API_KEY:
-        logger.warning(
-            "OPENAI_API_KEY is not set! "
-            "The LLM will not work until you add it to your .env file."
-        )
-    else:
-        logger.info("OPENAI_API_KEY found")
+    # Check LLM Provider status
+    if LLM_PROVIDER.lower() == "ollama":
+        if check_ollama_health():
+            logger.info("Ollama connected at %s (Model: %s)", OLLAMA_BASE_URL, OLLAMA_MODEL)
+        else:
+            logger.warning(
+                "Ollama service is NOT reachable at %s! "
+                "Please make sure Ollama is running (`ollama serve`).", OLLAMA_BASE_URL
+            )
+    elif LLM_PROVIDER.lower() == "openai":
+        if not OPENAI_API_KEY:
+            logger.warning("OPENAI_API_KEY is not set!")
+        else:
+            logger.info("OPENAI_API_KEY found")
 
     # Ingest knowledge base
     try:

@@ -13,6 +13,10 @@ load_dotenv()
 
 
 # --- LLM ---
+LLM_PROVIDER: str = os.getenv("LLM_PROVIDER", "ollama")
+OLLAMA_BASE_URL: str = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
+OLLAMA_MODEL: str = os.getenv("OLLAMA_MODEL", "lfm2-local:latest")
+
 OPENAI_API_KEY: str = os.getenv("OPENAI_API_KEY", "")
 MODEL_NAME: str = os.getenv("MODEL_NAME", "gpt-4o-mini")
 
